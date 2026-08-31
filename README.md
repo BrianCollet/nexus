@@ -1,36 +1,41 @@
 # Nexus
 
-Nexus is a self-hostable, open-source infrastructure control plane for platform and cloud engineering teams. It provides a governed, unified view of infrastructure across public clouds and on-premises environments, beginning with Azure.
+Nexus is a self-hostable, open-source unified infrastructure control plane for managing resources across public clouds and on-premises environments. It begins with Azure and grows toward provider-agnostic infrastructure management.
 
-The first release helps teams discover their existing Azure estate, organize the resources that matter into projects and environments, and give the right people the right level of access. Nexus does not replace cloud providers; it provides the context and team workflow that provider consoles lack.
+The first release helps operators discover their existing Azure estate, organize the resources that matter into projects and environments, see lightweight resource health or status context, and give the right people the right level of access.
 
 ## The Problem
 
-Infrastructure teams work across multiple provider consoles, subscriptions, resource groups, environments, and accounts. That fragmentation makes it difficult to answer basic operational questions:
+Infrastructure teams work across multiple provider consoles, subscriptions, resource groups, accounts, regions, environments, and on-premises systems. That fragmentation makes it difficult to answer basic operational questions:
 
+- What resources exist across providers and environments?
+- Where are they running, and how are they organized?
 - What infrastructure belongs to a product or team?
 - Which environment is a resource part of?
 - Who can view or manage its context?
 - How does a discovered resource map to its infrastructure-as-code definition?
+- Is the resource healthy, degraded, down, recently changed, or affected by a provider issue?
 
-Nexus brings that context into one place while allowing teams to retain control of their cloud accounts, credentials, and deployment environment.
+Nexus brings that fragmented resource picture into one place while allowing operators to retain control of their cloud accounts, credentials, and deployment environment.
 
 ## Product Vision
 
-Nexus will become a provider-agnostic control plane for managing and understanding infrastructure across public clouds and on-premises systems. It will make infrastructure easier to find, organize, inspect, and eventually operate through a consistent team-oriented experience.
+Nexus will become a provider-agnostic control plane for managing and understanding infrastructure across public clouds and on-premises systems. It will make infrastructure easier to find, organize, inspect, track, and eventually operate through one governed resource-management experience.
 
 The product is guided by these principles:
 
-- **Projects provide context.** Resources are organized around the products, services, and teams that own them.
+- **Resources are unified first.** Nexus provides one governed inventory and management surface across providers and on-premises environments.
+- **Projects provide useful organization.** Resources are organized around the products, services, systems, environments, and teams that help people operate them.
 - **Environments are explicit.** Development, staging, production, and other operational boundaries are visible inside every project.
 - **Access follows least privilege.** Teams can collaborate without granting broad provider-console access to everyone.
 - **Self-hosting is fundamental.** Operators retain control of Nexus, its data, and its provider credentials.
-- **Infrastructure should be inspectable.** Nexus makes resource metadata and supported code representations visible alongside the resource context.
+- **Infrastructure should be inspectable.** Nexus makes resource metadata, lightweight status context, and supported code representations visible alongside the resource context.
+- **Operational signals should have context.** Health, change, log, metric, notification, and deployment signals become more useful when they are tied to projects, environments, and owners.
 - **Provider support grows incrementally.** Azure is first; multi-cloud and on-premises coverage are long-term goals.
 
 ## Initial MVP
 
-The initial MVP is an Azure-first, read-only inventory and organization experience for platform and cloud engineering teams.
+The initial MVP is an Azure-first, read-only inventory, lightweight status, and organization experience for platform and cloud engineering teams.
 
 ### User Workflow
 
@@ -40,7 +45,7 @@ The initial MVP is an Azure-first, read-only inventory and organization experien
 4. An authorized user connects Azure through delegated user access or a service principal.
 5. The team browses and discovers Azure resources available to that connection.
 6. An Admin or Editor imports selected resources into the appropriate project and environment.
-7. Team members inspect each imported resource's metadata and read-only Azure Resource Manager (ARM) template view.
+7. Team members inspect each imported resource's metadata, lightweight health or status context, and read-only Azure Resource Manager (ARM) template view.
 
 Importing a resource into Nexus records its organizational context. It does not modify the resource in Azure.
 
@@ -52,6 +57,7 @@ Importing a resource into Nexus records its organizational context. It does not 
 - Azure connections using delegated credentials or service principals
 - Azure resource browsing, discovery, and import
 - Imported-resource metadata and a read-only ARM template code view
+- Lightweight Azure resource health or status context
 
 ### Deliberately Out of Scope
 
@@ -60,7 +66,10 @@ The MVP will not:
 - Create, modify, delete, or deploy Azure resources
 - Generate or promise deployment-ready Terraform
 - Support cloud providers other than Azure or on-premises integrations
-- Provide monitoring, logging, metrics, or alerting dashboards
+- Provide full monitoring, logging, metrics, or alerting dashboards
+- Deliver customizable notifications for resource changes or outages
+- Trigger Git-based deployments or CI/CD workflows
+- Automate backups, updates, error aggregation, or disaster recovery
 - Execute arbitrary infrastructure deployment code
 - Define a custom permission builder beyond the initial Admin, Editor, and Viewer roles
 
@@ -71,7 +80,7 @@ The MVP will not:
 | Team workspace | The shared Nexus space where users, access, projects, and provider connections are managed. |
 | User | A person with access to a team workspace. |
 | Role | The workspace access level: Admin, Editor, or Viewer. Detailed permissions will be defined during implementation. |
-| Project | A logical grouping for the infrastructure supporting a product, service, or team. |
+| Project | A logical grouping for infrastructure supporting a product, service, system, or team. |
 | Environment | An explicit operational boundary within a project, such as development, staging, or production. |
 | Provider connection | Authorized access to a cloud provider; the MVP supports Azure connections. |
 | Discovered resource | An Azure resource visible through a provider connection that has not yet been organized in Nexus. |
@@ -87,12 +96,13 @@ Azure access will use either delegated user credentials or service principals. N
 
 The roadmap is directional and non-binding.
 
-1. **MVP:** Azure discovery, import, organization by project and environment, team RBAC, and ARM inspection.
-2. **Next:** Defensible Azure change and provisioning workflows, plus Terraform representations where their fidelity can be demonstrated.
-3. **Later:** Additional cloud providers, on-premises inventory and management, and observability integrations for health, logs, and metrics.
+1. **MVP:** Azure discovery, import, organization by project and environment, team RBAC, lightweight health or status context, and ARM inspection.
+2. **Next:** Event-aware infrastructure context, including notifications, version tracking, visual dependency maps, log and metric integrations, and template generation from existing resources.
+3. **Then:** Git and CI/CD visibility, defensible Azure change and provisioning workflows, and deployment-ready templates where validation, approval, and execution boundaries can be demonstrated.
+4. **Later:** Additional cloud providers, on-premises inventory and management, and operational resilience integrations for backups, updates, health checks, error aggregation, and disaster recovery planning.
 
 ## Project Status
 
 Nexus is in its early product-definition stage. It is intended to be open source and self-hostable; the project license has not yet been selected.
 
-Feedback from platform and cloud engineering teams is especially valuable as the project moves toward its first implementation.
+Feedback from platform, cloud, infrastructure, and operations teams is especially valuable as the project moves toward its first implementation.
