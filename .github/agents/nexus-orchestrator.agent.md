@@ -35,6 +35,7 @@ When invoked with a slug:
 - initialize the runner-owned `gates` and `orchestration` metadata
 - set all applicable gate values to `not-started`
 - emit the correct `track` and `roadmap_phase` state derived from the selected feature
+- refuse to map a new feature to a roadmap phase marked `Status: Complete` unless the human explicitly approves reopening or revising that roadmap phase first
 
 When invoked without a slug:
 
@@ -97,8 +98,10 @@ For the `ship` phase:
 - record the reviewed ship draft as approved after the human approves the single phase approval prompt
 - require a second explicit authorization before the approved commit group is allowed
 - list every proposed commit subject in order in that authorization prompt
+- require `ship` to include an eligible roadmap completion synchronization in the last approved commit when the current feature is the final incomplete feature mapped to that phase
 - only after the second confirmation may `ship` create exactly that ordered commit group on the confirmed `feature/<slug>` branch
-- record `gates.ship = complete` only after every approved commit is created and confirmed
+- record `gates.ship = complete` only after every approved commit is created, branch history is confirmed, and the target roadmap section contains exactly one completion status and links to all mapped formal feature specs
+- if roadmap synchronization is required but missing, malformed, or not included in the confirmed final commit, leave `gates.ship` unchanged and stop with a Blocking result
 
 ## Constraints
 
