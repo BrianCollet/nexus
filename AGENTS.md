@@ -75,7 +75,17 @@ The runner owns the canonical `gates` object and the runner-owned `orchestration
 | `sm` | `specs/<slug>/tasks.md` | gate state and app source |
 | `dev` | application files, colocated unit/component tests, backend unit/integration tests under `backend/tests/unit/**` and `backend/tests/integration/**` | `specs/<slug>/qa.md`, `e2e/**`, `backend/tests/security/**`, or config governance files outside its scope |
 | `qa` | `specs/<slug>/qa.md`, `e2e/**`, `backend/tests/security/**` | application source, config source, or product logic |
-| `ship` | drafts commit/PR content and, after explicit confirmation, may stage and create the approved ordered commit group on the confirmed feature branch | pushes, alters Git config, stages unrelated files, or commits generated artifacts such as traces/coverage |
+| `ship` | drafts commit/PR content; synchronizes completion status and mapped feature links for an existing phase in `specs/roadmap.md`; after explicit confirmation, may stage and create the approved ordered commit group on the confirmed feature branch | writes gate state; adds, reorders, or otherwise revises roadmap phases; pushes; alters Git config; stages unrelated files; or commits generated artifacts such as traces/coverage |
+
+## Roadmap completion synchronization
+
+Feature gate state in `specs/<slug>/spec.md` is canonical. The completion status in `specs/roadmap.md` is a derived, human-readable summary and must not be used to bypass or infer a feature gate.
+
+A formal feature spec is an immediate `specs/<slug>/spec.md` file whose `<slug>` directory does not begin with an underscore. A feature maps to a roadmap phase only when its `roadmap_phase` frontmatter value exactly matches that phase's full heading text without the Markdown `## ` prefix. A roadmap phase is complete only when at least one formal feature maps to it and every mapped feature has `gates.ship = complete`. During the current feature's authorized ship transaction, `ship` may treat that feature as the final mapped completion only for preparing the roadmap update that will be committed after all earlier approved commits succeed.
+
+Before commit authorization, `ship` must record the roadmap synchronization and the `specs/roadmap.md` path in `specs/<slug>/ship.md`. When the current feature is the final incomplete mapped feature, `ship` must put the roadmap synchronization in the last approved commit. That update consists only of one `Status: Complete` line and a `Completed features` list linking every formal feature mapped to the existing phase. Missing or malformed mapping metadata, a missing exact roadmap heading, no mapped formal features, or any incomplete mapped feature other than the current authorized feature blocks completion.
+
+The roadmap commit does not itself set canonical gate state. Only after every approved commit is created and branch history is verified may `nexus-orchestrator` confirm the target roadmap section and persist `gates.ship = complete`. A failed or partial commit group must not advance the roadmap phase or the feature's ship gate. Adding or reordering roadmap phases remains outside `ship` authority and follows the existing human-approved brainstorm path.
 
 ## Feature-branch policy
 

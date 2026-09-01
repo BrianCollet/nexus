@@ -6,6 +6,12 @@ The roadmap should be read with [mission.md](mission.md) and [tech-stack.md](tec
 
 ## Phase 1: Product and Application Foundation
 
+Status: Complete
+
+Completed features:
+
+- [app-foundation](app-foundation/spec.md)
+
 Establish the repository and application skeleton needed to build Nexus as a self-hosted web application.
 
 Primary outcomes:
