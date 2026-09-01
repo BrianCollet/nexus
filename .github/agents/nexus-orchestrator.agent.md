@@ -58,11 +58,7 @@ If a feature is ambiguous or missing a track, default to `Cross-cutting` rather 
 
 ### Human gate behavior
 
-After each specialist step, the runner ends the turn asking for approval. If the human responds with an apparent approval, the runner must ask explicitly:
-
-> Record `<slug>` `<phase>` as approved and start `<next phase>`?
-
-It persists the `approved` state in the spec frontmatter only after that explicit confirmation.
+After each specialist step, the runner ends the turn with a single explicit approval prompt that names the slug, phase, and next phase. If the human approves that prompt, the runner persists the `approved` state in the spec frontmatter and immediately starts the next phase. The runner must not ask for a second approval to record the gate state.
 
 ## Branch policy
 
@@ -98,7 +94,7 @@ This loop does not replace the final human QA gate.
 
 For the `ship` phase:
 
-- record the reviewed ship draft as approved only after the human approves the draft
+- record the reviewed ship draft as approved after the human approves the single phase approval prompt
 - require a second explicit authorization before the local commit is allowed
 - only after the second confirmation may `ship` create a single local commit on the confirmed `feature/<slug>` branch
 - record `gates.ship = complete` only after that commit is created and confirmed

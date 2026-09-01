@@ -98,11 +98,7 @@ The phase-4 foundation feature must also state that Docker is required for `test
 
 ## Human approval gates
 
-The runner is the state machine. It reads the durable state from `spec.md`, invokes the next specialist, and ends the turn by asking for approval. When approval appears, it must ask:
-
-> Record `<slug>` `<phase>` as approved and start `<next phase>`?
-
-It persists the approved state in `spec.md` frontmatter only after that explicit confirmation.
+The runner is the state machine. It reads the durable state from `spec.md`, invokes the next specialist, and ends the turn with a single explicit approval prompt that names the slug, phase, and next phase. When the human approves that prompt, it persists the approved state in `spec.md` frontmatter and immediately starts the next phase. It must not require a second approval to record the gate state.
 
 The only exception is the bounded internal Dev↔QA remediation loop; that loop does not require a human gate per retry.
 
@@ -149,7 +145,7 @@ These commands must be recorded in the foundation feature’s governance and run
 3. Create the feature artifacts under `specs/<slug>/` using the templates.
 4. Advance one phase at a time.
 5. Request human approval after each reviewable phase.
-6. Persist gate approval only after the explicit confirmation prompt in the runner.
+6. Persist gate approval after the human approves the single explicit phase approval prompt.
 7. Use the Dev↔QA loop for bounded remediation until the feature is either accepted or escalated as `changes-requested`.
 8. Only after final QA and ship approval may the local commit be created.
 
