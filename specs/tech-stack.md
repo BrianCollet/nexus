@@ -233,7 +233,7 @@ Nexus should be designed for self-hosted deployment from the beginning.
 The initial packaging target remains open, but implementation should keep these constraints visible:
 
 - The frontend and backend should be deployable together for simple installations.
-- Configuration should be environment-driven.
+- Configuration should be environment-driven, sourced from a single root-level `.env` file shared by both apps: the backend reads it directly (e.g. via its settings loader pointed at the repository root), and the frontend's build tool (Vite) sets its `envDir` option to the repository root so it reads the same file with no per-app duplication or copy step. Only variables prefixed `VITE_` (Vite's existing convention) are exposed to frontend code, keeping backend-only secrets out of client bundles. A root-level `.env.example` documents the expected variables.
 - Operators should be able to control network exposure, TLS termination, database location, and credential storage.
 - Production deployments should have a clear path to backups, upgrades, and secret rotation.
 
@@ -255,6 +255,7 @@ Open deployment decisions:
 - Treat Git and CI/CD visibility as a prerequisite for controlled deployment orchestration.
 - Prefer explicit data models over provider-specific metadata blobs when Nexus owns the concept.
 - Keep deployment and credential assumptions compatible with self-hosted operation.
+- Use a single root-level `.env` file for both frontend and backend configuration — no per-app duplication or copy step.
 - Avoid adding multi-cloud abstractions before the Azure MVP proves the workflow.
 
 See [roadmap.md](roadmap.md) for the order in which these decisions should be implemented.
