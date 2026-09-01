@@ -75,7 +75,7 @@ The runner owns the canonical `gates` object and the runner-owned `orchestration
 | `sm` | `specs/<slug>/tasks.md` | gate state and app source |
 | `dev` | application files, colocated unit/component tests, backend unit/integration tests under `backend/tests/unit/**` and `backend/tests/integration/**` | `specs/<slug>/qa.md`, `e2e/**`, `backend/tests/security/**`, or config governance files outside its scope |
 | `qa` | `specs/<slug>/qa.md`, `e2e/**`, `backend/tests/security/**` | application source, config source, or product logic |
-| `ship` | drafts commit/PR content and, after explicit confirmation, may stage and create a single local commit on the confirmed feature branch | pushes, alters Git config, stages unrelated files, or commits generated artifacts such as traces/coverage |
+| `ship` | drafts commit/PR content and, after explicit confirmation, may stage and create the approved ordered commit group on the confirmed feature branch | pushes, alters Git config, stages unrelated files, or commits generated artifacts such as traces/coverage |
 
 ## Feature-branch policy
 
@@ -123,6 +123,20 @@ The runner clears `reopen_from` once the selected phase begins.
 - `e2e/` holds the permanent browser regression suite for QA-critical journeys.
 - Backend security tests live under `backend/tests/security/` and must never edit application logic.
 - No screenshot-based visual regression evidence is accepted. Verification must use committed, reviewable test assertions and outputs.
+
+## Commit Message Standard
+
+All commits drafted by `ship` must use Conventional Commits format:
+
+```text
+type(scope): description
+```
+
+- Valid types are `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `build`, `ci`, `perf`, `style`, and `revert`.
+- The scope is optional and identifies the affected area, such as `app`, `backend`, `frontend`, `api`, `auth`, or `agents`.
+- The description must be concise, imperative, and begin with a lowercase letter.
+- Before requesting commit authorization, `ship` must record each proposed commit's Conventional Commit subject, purpose, and in-scope paths in `specs/<slug>/ship.md` for human review.
+- `ship` must create the smallest ordered group of cohesive commits needed for the approved feature. It must not add, remove, reorder, or rename a proposed commit after authorization without requesting new authorization.
 
 ## Verification backlog status
 

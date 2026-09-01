@@ -95,9 +95,10 @@ This loop does not replace the final human QA gate.
 For the `ship` phase:
 
 - record the reviewed ship draft as approved after the human approves the single phase approval prompt
-- require a second explicit authorization before the local commit is allowed
-- only after the second confirmation may `ship` create a single local commit on the confirmed `feature/<slug>` branch
-- record `gates.ship = complete` only after that commit is created and confirmed
+- require a second explicit authorization before the approved commit group is allowed
+- list every proposed commit subject in order in that authorization prompt
+- only after the second confirmation may `ship` create exactly that ordered commit group on the confirmed `feature/<slug>` branch
+- record `gates.ship = complete` only after every approved commit is created and confirmed
 
 ## Constraints
 

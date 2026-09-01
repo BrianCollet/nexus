@@ -101,8 +101,91 @@ The roadmap is directional and non-binding.
 3. **Then:** Git and CI/CD visibility, defensible Azure change and provisioning workflows, and deployment-ready templates where validation, approval, and execution boundaries can be demonstrated.
 4. **Later:** Additional cloud providers, on-premises inventory and management, and operational resilience integrations for backups, updates, health checks, error aggregation, and disaster recovery planning.
 
+## Local Development
+
+The Phase 1 application foundation includes a FastAPI backend and a Vite React frontend. Both apps read local configuration from a single root-level `.env` file.
+
+### Prerequisites
+
+- Python 3.11 or newer
+- Node.js 20.19 or newer with npm
+- Docker for future `testcontainers` backend integration tests
+
+### Configure
+
+Copy the example environment file before starting either app:
+
+```bash
+cp .env.example .env
+```
+
+The default local ports are:
+
+- Backend API: `http://127.0.0.1:8000`
+- Frontend dev server: `http://127.0.0.1:5173`
+
+### Backend
+
+Install backend dependencies and start the FastAPI server with one command:
+
+```bash
+npm run dev:backend:setup
+```
+
+If dependencies are already installed, start only the backend:
+
+```bash
+npm run dev:backend
+```
+
+Backend checks:
+
+- Health: `http://127.0.0.1:8000/health`
+- OpenAPI docs: `http://127.0.0.1:8000/docs`
+- OpenAPI schema: `http://127.0.0.1:8000/openapi.json`
+
+### Frontend
+
+Install frontend dependencies and start the React dev server with one command:
+
+```bash
+npm run dev:frontend:setup
+```
+
+If dependencies are already installed, start only the frontend:
+
+```bash
+npm run dev:frontend
+```
+
+Open `http://127.0.0.1:5173` to view the placeholder application shell. It uses `VITE_NEXUS_API_BASE_URL` from the root `.env` file to check backend health and link to API docs.
+
+### Tests
+
+Run backend tests:
+
+```bash
+npm run test:backend
+```
+
+Run frontend tests:
+
+```bash
+npm run test:frontend
+```
+
+Run the current unit test set:
+
+```bash
+npm run test:unit
+```
+
+Docker is required for future `testcontainers` backend integration tests. When Docker is unavailable, Docker-dependent tests must report a clear pytest skip message instead of silently passing.
+
+QA server lifecycle commands, readiness checks, timeouts, and cleanup requirements are documented in [docs/qa-server-lifecycle.md](docs/qa-server-lifecycle.md).
+
 ## Project Status
 
-Nexus is in its early product-definition stage. It is intended to be open source and self-hostable; the project license has not yet been selected.
+Nexus is in its early product-definition and application-foundation stage. It is intended to be open source and self-hostable; the project license has not yet been selected.
 
 Feedback from platform, cloud, infrastructure, and operations teams is especially valuable as the project moves toward its first implementation.

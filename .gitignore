@@ -1,0 +1,21 @@
+# Local configuration
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Test and browser artifacts
+test-results/
+playwright-report/
+traces/
