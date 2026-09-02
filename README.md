@@ -108,6 +108,7 @@ The Phase 1 application foundation includes a FastAPI backend and a Vite React f
 ### Prerequisites
 
 - Python 3.11 or newer
+- uv for backend Python environment management
 - Node.js 20.19 or newer with npm
 - Docker for future `testcontainers` backend integration tests
 
@@ -126,16 +127,19 @@ The default local ports are:
 
 ### Backend
 
-Install backend dependencies and start the FastAPI server with one command:
+Backend dependencies are managed with `uv`. Use `uv add` from the `backend/` directory to add runtime dependencies, and `uv add --dev` to add development dependencies. `uv sync --dev` creates or updates `backend/.venv` and installs the locked backend dependencies into that local virtual environment. The venv is intentionally gitignored and should remain on disk between setup runs.
+
+Install backend dependencies:
 
 ```bash
-npm run dev:backend:setup
+cd backend
+uv sync --dev
 ```
 
-If dependencies are already installed, start only the backend:
+Start the FastAPI server:
 
 ```bash
-npm run dev:backend
+uv run python -m app.cli
 ```
 
 Backend checks:
@@ -146,16 +150,17 @@ Backend checks:
 
 ### Frontend
 
-Install frontend dependencies and start the React dev server with one command:
+Install frontend dependencies:
 
 ```bash
-npm run dev:frontend:setup
+cd frontend
+npm install
 ```
 
-If dependencies are already installed, start only the frontend:
+Start the React dev server:
 
 ```bash
-npm run dev:frontend
+npm run dev
 ```
 
 Open `http://127.0.0.1:5173` to view the placeholder application shell. It uses `VITE_NEXUS_API_BASE_URL` from the root `.env` file to check backend health and link to API docs.
@@ -165,19 +170,22 @@ Open `http://127.0.0.1:5173` to view the placeholder application shell. It uses 
 Run backend tests:
 
 ```bash
-npm run test:backend
+cd backend
+uv run python -m pytest
 ```
 
 Run frontend tests:
 
 ```bash
-npm run test:frontend
+cd frontend
+npm test
 ```
 
-Run the current unit test set:
+Run the current unit test set from separate terminals or shell steps:
 
 ```bash
-npm run test:unit
+cd backend && uv run python -m pytest
+cd frontend && npm test
 ```
 
 Docker is required for future `testcontainers` backend integration tests. When Docker is unavailable, Docker-dependent tests must report a clear pytest skip message instead of silently passing.

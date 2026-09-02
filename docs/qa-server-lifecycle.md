@@ -6,10 +6,10 @@ This document defines the deterministic server lifecycle QA must use for the Pha
 
 | Service | Default port | Start command | Readiness check | Stop command |
 | --- | --- | --- | --- | --- |
-| Backend | `8000` | `npm run dev:backend` | `curl http://127.0.0.1:8000/health` returns HTTP 200 with JSON status | Stop the foreground process with `Ctrl+C` |
-| Frontend | `5173` | `npm run dev:frontend` | `curl http://127.0.0.1:5173/` returns HTTP 200 | Stop the foreground process with `Ctrl+C` |
+| Backend | `8000` | `cd backend && uv run python -m app.cli` | `curl http://127.0.0.1:8000/health` returns HTTP 200 with JSON status | Stop the foreground process with `Ctrl+C` |
+| Frontend | `5173` | `cd frontend && npm run dev` | `curl http://127.0.0.1:5173/` returns HTTP 200 | Stop the foreground process with `Ctrl+C` |
 
-Use `npm run dev:backend:setup` and `npm run dev:frontend:setup` when dependencies have not been installed yet.
+Use `cd backend && uv sync --dev` and `cd frontend && npm install` when dependencies have not been installed yet.
 
 ## Readiness Timeout
 

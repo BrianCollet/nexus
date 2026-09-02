@@ -150,17 +150,16 @@ type(scope): description
 
 ## Verification backlog status
 
-Deterministic verification commands are intentionally pending the application foundation feature. Once the foundation is in place, the expected commands include:
+Deterministic verification commands are intentionally pending the application foundation feature. Once the foundation is in place, the expected checks include:
 
-- `test:unit`
-- `test:component`
+- backend pytest targets for unit, integration, and security suites, run from `backend/` with `uv`
+- frontend unit and component tests, run from `frontend/` with npm
 - `test:e2e`
 - `test:a11y`
 - `test:contract`
 - `test:coverage`
-- backend pytest targets for unit, integration, and security suites
 
-These commands must be recorded in the foundation feature’s governance and run from the repo root.
+These commands must be recorded in the foundation feature’s governance. Backend command details belong in `backend/AGENTS.md`; frontend command details belong in `frontend/AGENTS.md`.
 
 ## Implementation policy for future work
 
