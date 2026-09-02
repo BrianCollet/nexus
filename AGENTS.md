@@ -89,9 +89,9 @@ The roadmap commit does not itself set canonical gate state. Only after every ap
 
 ## Feature-branch policy
 
-Before `dev` begins implementation, `nexus-orchestrator` must ask for explicit human confirmation to create or switch to `feature/<slug>` when that branch is not already active.
+As soon as a feature slug is confirmed and the custom-agent preflight has passed, `nexus-orchestrator` must ask for explicit human confirmation to create or switch to `feature/<slug>` when that branch is not already active. This happens before any feature artifact, including the `spec.md` skeleton, is created.
 
-Implementation is blocked until human confirmation is received.
+Orchestration is blocked until human confirmation is received. If the confirmed branch is no longer active by the time `dev` begins implementation (for example, it was deleted), the runner must re-confirm before `implement` starts.
 
 ## QA server lifecycle policy
 

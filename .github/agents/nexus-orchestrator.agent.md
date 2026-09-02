@@ -30,9 +30,10 @@ If the preflight fails, orchestration stops before any feature artifact is creat
 
 When invoked with a slug:
 
+- once the preflight has passed, ask the human to confirm creating or switching to `feature/<slug>` when that branch is not already active, before any feature artifact is created
 - create the feature directory under `specs/<slug>/`
 - initialize the template-backed `spec.md` skeleton from `specs/_template/spec.md`
-- initialize the runner-owned `gates` and `orchestration` metadata
+- initialize the runner-owned `gates` and `orchestration` metadata, recording the confirmed branch in `orchestration.confirmed_branch`
 - set all applicable gate values to `not-started`
 - emit the correct `track` and `roadmap_phase` state derived from the selected feature
 - refuse to map a new feature to a roadmap phase marked `Status: Complete` unless the human explicitly approves reopening or revising that roadmap phase first
@@ -63,9 +64,9 @@ After each specialist step, the runner ends the turn with a single explicit appr
 
 ## Branch policy
 
-Before invoking `dev`, the runner must ask the human to confirm creating or switching to `feature/<slug>` when the branch is not already active.
+The branch is confirmed once, at feature-creation time (see Feature creation above), and the result is persisted in `orchestration.confirmed_branch`. Orchestration is blocked until that confirmation is given.
 
-Implementation is blocked until this confirmation is given.
+If `orchestration.confirmed_branch` is no longer active by the time `dev` is invoked (for example, it was deleted), the runner must re-confirm with the human before `implement` starts. Implementation is blocked until that re-confirmation is given.
 
 ## Reopen policy
 
