@@ -127,7 +127,7 @@ The default local ports are:
 
 ### Backend
 
-Backend dependencies are managed with `uv`. Use `uv add` from the `backend/` directory to add runtime dependencies, and `uv add --dev` to add development dependencies. `uv sync --dev` creates or updates `backend/.venv` and installs the locked backend dependencies into that local virtual environment. The venv is intentionally gitignored and should remain on disk between setup runs.
+Backend dependencies are managed with `uv`. Use `uv add` from the `backend/` directory to add runtime dependencies, and `uv add --dev` to add development dependencies. `uv sync --dev` creates or updates `backend/.venv` and installs the locked backend dependencies into that local virtual environment.
 
 Install backend dependencies:
 
